@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>01.Drum Kit</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="keys">
+        <div class="key" data-key="65">
+            <span>A</span>
+        </div>
+        <div class="key" data-key="83">
+            <span>S</span>
+        </div>
+        <div class="key" data-key="68">
+            <span>D</span>
+        </div>
+    </div>
+    
+    <audio src="sounds/kick.wav" data-key="65"></audio>
+    <audio src="sounds/clap.wav" data-key="83"></audio>
+    <audio src="sounds/hihat.wav" data-key="68"></audio>
+    
+    <script>
+        function playSound(e) {
+            var audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+            audio.currentTime = 0;
+            audio.play();
+            
+            var key = document.querySelector(`.key[data-key="${e.keyCode}"]`);
+            key.classList.add('playing');
+        }
+
+        function removeTransition() {
+            this.classList.remove('playing'); //this binds all .key unfortunately, will need to improve that. author used arow function on eventListener
+        }
+        
+        var keys = document.querySelectorAll('.key');
+        keys.forEach(function(key){
+             return key.addEventListener('transitionend', removeTransition);
+        });
+        
+        window.addEventListener('keydown', playSound)
+        
+    </script>
+</body>
+</html>
